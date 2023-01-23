@@ -3,20 +3,78 @@
 #include <sys/types.h>
 #include <signal.h>
 
-void print0(int sig)
+char signals[8];
+
+int ft_strlen(char *str)
 {
-    write(1, "0", 1);
+    int i = 0;
+    while (str[i])
+        i++;
+    return (i);
 }
 
-void print1(int sig)
+void	ft_bzero(void *s, size_t n)
 {
-    write(1, "1", 1);
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((char *)s)[i++] = '\0';
+	}
+}
+
+int binarytodecimal(char *num)
+{
+    int i = ft_strlen(num);
+    int deci_num = 0;
+    int mul = 1;
+    while (--i >= 0)
+    {
+        deci_num = deci_num + (num[i] - 48) * mul;
+        mul *= 2;
+    }
+    ft_bzero(signals, 8);
+    return (deci_num);
+}
+
+void handler(int sig)
+{
+    int siglen;
+    char    c;
+
+    siglen = ft_strlen(signals);
+    if (siglen != 8)
+    {
+        signals[siglen] = '0';
+    }
+    if (ft_strlen(signals) == 8)
+    {
+        c = binarytodecimal(signals);
+        write(1, &c, 1);
+    }
+}
+
+void handler2(int sig)
+{
+    int siglen;
+    char    c;
+    siglen = ft_strlen(signals);
+    if (siglen != 8)
+    {
+        signals[siglen] = '1';
+    }
+    if (ft_strlen(signals) == 8)
+    {
+        c = binarytodecimal(signals);
+        write(1, &c, 1);
+    }
 }
 
 int main()
 {
-    signal(SIGUSR1, print0);
-    signal(SIGUSR2, print1);
+    signal(SIGUSR1, handler);
+    signal(SIGUSR2, handler2);
     printf("%i\n", getpid());
     while(1)
         ;

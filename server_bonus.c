@@ -68,6 +68,7 @@ void handler(int sig, siginfo_t *info, void *ucontext)
     {      
         c = binarytodecimal(signals);
         write(1, &c, 1);
+        kill(sender_pid, SIGUSR1);
     }
 }
 
@@ -83,6 +84,3 @@ int main()
     while(1)
         ;
 }
-
-
-

@@ -1,28 +1,18 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <signal.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zbenaiss <zbenaiss@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 22:44:53 by zbenaiss          #+#    #+#             */
+/*   Updated: 2023/01/30 15:19:59 by zbenaiss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minitalk.h"
 
 char signals[8];
-
-int ft_strlen(char *str)
-{
-    int i = 0;
-    while (str[i])
-        i++;
-    return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		((char *)s)[i++] = '\0';
-	}
-}
 
 int binarytodecimal(char *num)
 {
@@ -44,6 +34,7 @@ void handler(int sig, siginfo_t *info, void *ucontext)
     static int sender_pid;
     char    c;
 
+    (void) ucontext;
     if (sender_pid != info->si_pid)
     {
         ft_bzero(signals, 8);

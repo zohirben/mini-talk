@@ -1,40 +1,18 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <signal.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zbenaiss <zbenaiss@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 22:44:47 by zbenaiss          #+#    #+#             */
+/*   Updated: 2023/01/30 15:23:05 by zbenaiss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minitalk.h"
 
 int len = 0;
-
-int ft_atoi(const char *str)
-{
-    int i;
-    int number;
-    int sign;
-
-    sign = 1;
-    i = 0;
-    number = 0;
-    if (str[i] == '-')
-    {
-        sign = -1;
-        i++;
-    }
-    while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-    {
-        number *= 10;
-        number += (str[i] - '0');
-        i++;
-    }
-    return (number * sign);
-}
-
-int ft_strlen(char *str)
-{
-    int i = 0;
-    while (str[i])
-        i++;
-    return (i);
-}
 
 void    send_binary(char c, int pid)
 {
@@ -54,6 +32,7 @@ void    send_binary(char c, int pid)
 
 void    handler(int signal)
 {
+    (void) signal;
     len+=1;
 }
 
@@ -64,7 +43,6 @@ int main(int ac, char **av)
     if (ac == 3)
     {
         signal(SIGUSR1, handler);
-        //dir function kathandli sigusr1 w katdir strlen++
         get_pid = ft_atoi(av[1]);
         char *str = av[2];
         int i = 0;

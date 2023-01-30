@@ -1,30 +1,16 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <signal.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zbenaiss <zbenaiss@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 22:44:55 by zbenaiss          #+#    #+#             */
+/*   Updated: 2023/01/29 22:46:26 by zbenaiss         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int ft_atoi(const char *str)
-{
-    int i;
-    int number;
-    int sign;
-
-    sign = 1;
-    i = 0;
-    number = 0;
-    if (str[i] == '-')
-    {
-        sign = -1;
-        i++;
-    }
-    while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-    {
-        number *= 10;
-        number += (str[i] - '0');
-        i++;
-    }
-    return (number * sign);
-}
+#include "minitalk.h"
 
 void    send_binary(char c, int pid)
 {

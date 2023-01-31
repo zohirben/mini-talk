@@ -1,12 +1,20 @@
 SRCS = server.c client.c unit_tools.c
+BONUS_SRCS = server_bonus.c client_bonus.c
 
 OBJS = $(SRCS:.c=.o)
-BONUS_OBJS = server_bonus.o client_bonus.o unit_tools.o
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
+
+SERVER_OBJS = server.o unit_tools.o
+CLIENT_OBJS = client.o unit_tools.o
+
+SERVER_BONUS_OBJS = server_bonus.o unit_tools.o
+CLIENT_BONUS_OBJS = client_bonus.o unit_tools.o
 
 SERVER_NAME = server
 CLIENT_NAME = client
-BONUS_SERVER_NAME = server_bonus
-BONUS_CLIENT_NAME = client_bonus
+
+SERVER_BONUS_NAME = server_bonus
+CLIENT_BONUS_NAME = client_bonus
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
@@ -21,19 +29,17 @@ all: ft_printf $(SERVER_NAME) $(CLIENT_NAME)
 ft_printf:
 	make -C $(FT_PRINTF)
 
-$(SERVER_NAME): server.o unit_tools.o $(FT_PRINTF_A)
-	$(CC) $(CFLAGS) $^ -o $(SERVER_NAME)
+$(SERVER_NAME): $(SERVER_OBJS) $(FT_PRINTF_A)
+	$(CC) $(CFLAGS) $(SERVER_OBJS) $(FT_PRINTF_A) -o $(SERVER_NAME)
 
-$(CLIENT_NAME): client.o unit_tools.o $(FT_PRINTF_A)
-	$(CC) $(CFLAGS) $^ -o $(CLIENT_NAME)
+$(CLIENT_NAME): $(CLIENT_OBJS) $(FT_PRINTF_A)
+	$(CC) $(CFLAGS) $(CLIENT_OBJS) $(FT_PRINTF_A) -o $(CLIENT_NAME)
 
-bonus: ft_printf $(BONUS_SERVER_NAME) $(BONUS_CLIENT_NAME)
+$(SERVER_BONUS_NAME): $(SERVER_BONUS_OBJS) $(FT_PRINTF_A)
+	$(CC) $(CFLAGS) $(SERVER_BONUS_OBJS) $(FT_PRINTF_A) -o $(SERVER_BONUS_NAME)
 
-$(BONUS_SERVER_NAME): server_bonus.o unit_tools.o $(FT_PRINTF_A)
-	$(CC) $(CFLAGS) $^ -o $(BONUS_SERVER_NAME)
-
-$(BONUS_CLIENT_NAME): client_bonus.o unit_tools.o $(FT_PRINTF_A)
-	$(CC) $(CFLAGS) $^ -o $(BONUS_CLIENT_NAME)
+$(CLIENT_BONUS_NAME): $(CLIENT_BONUS_OBJS) $(FT_PRINTF_A)
+	$(CC) $(CFLAGS) $(CLIENT_BONUS_OBJS) $(FT_PRINTF_A) -o $(CLIENT_BONUS_NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -43,7 +49,9 @@ clean:
 	make -C $(FT_PRINTF) clean
 
 fclean: clean
-	rm -f $(SERVER_NAME) $(CLIENT_NAME) $(BONUS_SERVER_NAME) $(BONUS_CLIENT_NAME)
+	rm -f $(SERVER_NAME) $(CLIENT_NAME) $(SERVER_BONUS_NAME) $(CLIENT_BONUS_NAME)
 	make -C $(FT_PRINTF) fclean
+
+bonus: ft_printf $(SERVER_BONUS_NAME) $(CLIENT_BONUS_NAME)
 
 re: fclean all
